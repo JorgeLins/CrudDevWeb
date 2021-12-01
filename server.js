@@ -6,14 +6,12 @@ var expressLayouts = require('express-ejs-layouts')
 const app = express()
 const port = 3001
 
-const sequelize = require('./database/index')
-
-const routes = require('./routes/index')
+const sequelize = require('./src/database/index')
+const routes = require('./src/routes/index')
 
 
 app.use(express.json());
-
-
+app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs')
 app.use(expressLayouts)
 app.use(express.static(__dirname + '/public'))

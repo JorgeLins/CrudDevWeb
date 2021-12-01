@@ -7,6 +7,11 @@ const Post = require('./post');
 class Account extends Model {}
 
 Account.init({
+    email:{
+        type:DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
     username:{
         type:DataTypes.STRING,
         allowNull: false,
