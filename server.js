@@ -19,33 +19,33 @@ const bcrypt = require('bcrypt')
 
 passport.use(new Strategy( 
   async (username, password, done) => {
-    let aRepo = new AccountRepository();
+    let aRepo = AccountRepository();
 
     let account = await aRepo.findByUsername(username)
 
     if(account.length == 0){ 
-      return done(null, false), {message: 'Usuario e senhas invalidos'}
+      return  done(null, false), {message: 'Usuario e senhas invalidos'}
     }
 
 
     bcrypt.compare(password, account[0].password, (err, result) => {
       if(err) {
-        return done(err)
+       return done(err)
       }
       if(!result) {
-        return done(null, false, {message: 'senhas invalidos'})
+        return  done(null, false, {message: 'senha invalida'})
       }
  
       return done(null, account)
     });
 }));
 
-passport.serializeUser(function(user, done) {
-  return done(null, {id: user.id});
+passport.serializeUser((user, done) => {
+  done(null, {id: user.id});
 });
 
 passport.deserializeUser( async (id, done) => {
-  let aRepo =  new AccountRepository();
+  let aRepo =  AccountRepository();
   let account = await aRepo.find(id)
 
   return done(null, account)
